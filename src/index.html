@@ -167,6 +167,15 @@
             connected: false,
             counter: 0
         };
+        const axios = require('axios').default;
+        const { v4: uuidv4 } = require('uuid');
+
+        let key = "35358eb7b5554acdb6953bb1dd1f9458";
+        let endpoint = "https://api.cognitive.microsofttranslator.com";
+
+        // location, also known as region.
+        // required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
+        let location = "eastus";
         const app = new Vue({
             el: '#app',
             data: data,
@@ -212,8 +221,31 @@
                         this.log("Error: empty message");
                         return;
                     }
+                    translatedText = ''
+                    axios({
+                        baseURL: endpoint,
+                        url: '/translate',
+                        method: 'post',
+                        headers: {
+                            'Ocp-Apim-Subscription-Key': key,
+                            // location required if you're using a multi-service or regional (not global) resource.
+                            'Ocp-Apim-Subscription-Region': location,
+                            'Content-type': 'application/json',
+                            'X-ClientTraceId': uuidv4().toString()
+                        },
+                        params: {
+                            'api-version': '3.0',
+                            'to': ['en']
+                        },
+                        data: [{
+                            'text': this.newMessage
+                        }],
+                        responseType: 'json'
+                    }).then(function(response){
+                        this.translatedText = (JSON.stringify(response.data, null, 4));
+                    })
 
-                    this.sendToServer(this.newMessage);
+                    this.sendToServer(this.translatedText);
 
                     this.newMessage = '';
                 },

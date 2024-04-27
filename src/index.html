@@ -201,6 +201,9 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
+                                console.log(e.data);
+                                console.log(JSON.parse(e.data));
+                                console.log(originalMessage)
                                 this.addMessageToView(originalMessage);
                             }}).catch(err => {
                                 this.log("Error: " + err);
@@ -262,7 +265,7 @@
                 },
                 addMessageToView(message) {
                     console.log('addMessageToView');
-                    this.addItem(JSON.parse(message), this.chat.messages);
+                    this.addItem(message, this.chat.messages);
 
                     var elem = document.getElementById('chat');
                     if (elem) {

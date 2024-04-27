@@ -201,7 +201,6 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
-                                const originalMessage = message.originalMessage; // Extract original message
                                 this.addMessageToView(originalMessage);
                             }}).catch(err => {
                                 this.log("Error: " + err);

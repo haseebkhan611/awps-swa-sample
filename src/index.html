@@ -201,7 +201,8 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
-                                this.addMessageToView(e.data);
+                                const originalMessage = message.originalMessage; // Extract original message
+                                this.addMessageToView(originalMessage);
                             }}).catch(err => {
                                 this.log("Error: " + err);
                         });
@@ -213,6 +214,9 @@
                         this.log("Error: empty message");
                         return;
                     }
+
+                    // Save the user-typed message as the original message
+                    originalMessage = this.newMessage;
 
                     // Translate the message before sending
                     this.translateMessage(this.newMessage)

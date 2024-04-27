@@ -175,7 +175,7 @@
 
         // location, also known as region.
         // required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
-        let location = "eastus";
+        let locationTrans = "eastus";
         const app = new Vue({
             el: '#app',
             data: data,
@@ -229,7 +229,7 @@
                         headers: {
                             'Ocp-Apim-Subscription-Key': key,
                             // location required if you're using a multi-service or regional (not global) resource.
-                            'Ocp-Apim-Subscription-Region': location,
+                            'Ocp-Apim-Subscription-Region': locationTrans,
                             'Content-type': 'application/json',
                             'X-ClientTraceId': uuidv4().toString()
                         },

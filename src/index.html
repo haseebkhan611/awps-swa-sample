@@ -172,6 +172,7 @@
             data: data,
             methods: {
                 login: function () {
+                    console.log('login');
                     if (this.username) {
                         this.loggedin = true;
 
@@ -206,6 +207,7 @@
                     }
                 },
                 sendNewMessage: function () {
+                    console.log('sendNewMessage');
                     if (!this.newMessage) {
                         this.log("Error: empty message");
                         return;
@@ -216,6 +218,7 @@
                     this.newMessage = '';
                 },
                 addItem(item, owner) {
+                    console.log('addItem');
                     item.id = this.counter++; // vue transitions need an id
                     owner.push(item);
                 },
@@ -223,11 +226,12 @@
                     this.websocket.send(JSON.stringify(
                         {
                             from: this.username,
-                            content: 'hello',
+                            content: content,
                         }
                     ));
                 },
                 addMessageToView(message) {
+                    console.log('addMessageToView');
                     this.addItem(JSON.parse(message), this.chat.messages);
 
                     var elem = document.getElementById('chat');

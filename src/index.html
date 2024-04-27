@@ -167,13 +167,7 @@
             connected: false,
             counter: 0
         };
-
-        let key = "35358eb7b5554acdb6953bb1dd1f9458";
-        let endpoint = "https://api.cognitive.microsofttranslator.com";
-
-        // location, also known as region.
-        // required if you're using a multi-service or regional (not global) resource. It can be found in the Azure portal on the Keys and Endpoint page.
-        let locationTrans = "eastus";
+        
         const app = new Vue({
             el: '#app',
             data: data,
@@ -214,39 +208,39 @@
                     }
                 },
                 sendNewMessage: function () {
-                    console.log('sendNewMessage');
-                    if (!this.newMessage) {
-                        this.log("Error: empty message");
-                        return;
-                    }
-                    translatedText = ''
-                    axios({
-                        baseURL: endpoint,
-                        url: '/translate',
-                        method: 'post',
-                        headers: {
-                            'Ocp-Apim-Subscription-Key': key,
-                            // location required if you're using a multi-service or regional (not global) resource.
-                            'Ocp-Apim-Subscription-Region': locationTrans,
-                            'Content-type': 'application/json',
-                            'X-ClientTraceId': uuidv4().toString()
-                        },
-                        params: {
-                            'api-version': '3.0',
-                            'to': ['en']
-                        },
-                        data: [{
-                            'text': this.newMessage
-                        }],
-                        responseType: 'json'
-                    }).then(function(response){
-                        this.translatedText = (JSON.stringify(response.data, null, 4));
+                console.log('sendNewMessage');
+                if (!this.newMessage) {
+                    this.log("Error: empty message");
+                    return;
+                }
+
+                // Translate the message before sending
+                this.translateMessage(this.newMessage)
+                    .then(translatedMessage => {
+                        // Send the translated message to the server
+                        this.sendToServer(translatedMessage);
                     })
+                    .catch(error => {
+                        this.log("Translation error: " + error);
+                    });
 
-                    this.sendToServer(this.translatedText);
-
-                    this.newMessage = '';
-                },
+                this.newMessage = '';
+            },
+            translateMessage: function (message) {
+                return axios.post('https://api.cognitive.microsofttranslator.com/translate', {
+                    text: message,
+                    to: 'en' // Translate to English
+                }, {
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': '35358eb7b5554acdb6953bb1dd1f9458',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.data[0].translations[0].text)
+                .catch(error => {
+                    throw new Error("Translation failed");
+                });
+            },
                 addItem(item, owner) {
                     console.log('addItem');
                     item.id = this.counter++; // vue transitions need an id

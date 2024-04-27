@@ -228,9 +228,11 @@
                 },
                 translateMessage: function (message) {
                     console.log(message);
-                    return axios.post('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en', {
-                        Text: message
-                    }, {
+                    return axios.post('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en', 
+                        [{
+                            Text: message
+                        }], 
+                    {
                         headers: {
                             'Ocp-Apim-Subscription-Key': '35358eb7b5554acdb6953bb1dd1f9458',
                             'Content-Type': 'application/json',

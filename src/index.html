@@ -208,39 +208,40 @@
                     }
                 },
                 sendNewMessage: function () {
-                console.log('sendNewMessage');
-                if (!this.newMessage) {
-                    this.log("Error: empty message");
-                    return;
-                }
-
-                // Translate the message before sending
-                this.translateMessage(this.newMessage)
-                    .then(translatedMessage => {
-                        // Send the translated message to the server
-                        this.sendToServer(translatedMessage);
-                    })
-                    .catch(error => {
-                        this.log("Translation error: " + error);
-                    });
-
-                this.newMessage = '';
-            },
-            translateMessage: function (message) {
-                return axios.post('https://api.cognitive.microsofttranslator.com/translate', {
-                    text: message,
-                    to: 'en' // Translate to English
-                }, {
-                    headers: {
-                        'Ocp-Apim-Subscription-Key': '35358eb7b5554acdb6953bb1dd1f9458',
-                        'Content-Type': 'application/json'
+                    console.log('sendNewMessage');
+                    if (!this.newMessage) {
+                        this.log("Error: empty message");
+                        return;
                     }
-                })
-                .then(response => response.data[0].translations[0].text)
-                .catch(error => {
-                    throw new Error("Translation failed");
-                });
-            },
+
+                    // Translate the message before sending
+                    this.translateMessage(this.newMessage)
+                        .then(translatedMessage => {
+                            // Send the translated message to the server
+                            this.sendToServer(translatedMessage);
+                        })
+                        .catch(error => {
+                            this.log("Translation error: " + error);
+                        });
+
+                    this.newMessage = '';
+                },
+                translateMessage: function (message) {
+                    console.log(message);
+                    return axios.post('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en', {
+                        Text: message
+                    }, {
+                        headers: {
+                            'Ocp-Apim-Subscription-Key': '35358eb7b5554acdb6953bb1dd1f9458',
+                            'Content-Type': 'application/json',
+                            'Ocp-Apim-Subscription-Region':'eastus'
+                        }
+                    })
+                    .then(response => response.data[0].translations[0].text)
+                    .catch(error => {
+                        throw new Error("Translation failed");
+                    });
+                },
                 addItem(item, owner) {
                     console.log('addItem');
                     item.id = this.counter++; // vue transitions need an id

@@ -82,13 +82,6 @@
                         aria-describedby="usernameHelp" placeholder="Type your user name">
                     <small id="usernameHelp" class="form-text text-muted">The user name used to talk to others</small>
                 </div>
-                <!-- Dropdown for selecting language -->
-                <div class="form-group">
-                    <label for="languageSelect">Select Language</label>
-                    <select class="form-control" v-model="selectedLanguage" id="languageSelect">
-                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language.name }}</option>
-                    </select>
-                </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
             </form>
         </div>
@@ -172,18 +165,13 @@
             logs: [],
             loggedin: false,
             connected: false,
-            counter: 0,
-            supportedLanguages: [],
-            selectedLanguage: ''
+            counter: 0
         };
-        
         const app = new Vue({
             el: '#app',
             data: data,
             methods: {
                 login: function () {
-                    console.log('login');
-                    console.log(this.selectedLanguage);
                     if (this.username) {
                         this.loggedin = true;
 
@@ -217,60 +205,17 @@
                         });
                     }
                 },
-                fetchSupportedLanguages() {
-                    console.log('fetchSupportedLanguages');
-                    // Call Azure Translator API to fetch supported languages
-                    // Update supportedLanguages array with the response
-                    axios.get('https://api.cognitive.microsofttranslator.com/languages?api-version=3.0')
-                        .then(response => {
-                            this.supportedLanguages = Object.entries(response.data.translation)
-                                .map(([code, name]) => ({ code, name }));
-                        })
-                        .catch(error => {
-                            this.log("Error fetching supported languages: " + error);
-                        });
-                },
                 sendNewMessage: function () {
-                    console.log('sendNewMessage');
                     if (!this.newMessage) {
                         this.log("Error: empty message");
                         return;
                     }
-                    // Save the user-typed message as the original message
-                    originalMessage = this.newMessage;
 
-                    // Translate the message before sending
-                    this.translateMessage(this.newMessage)
-                        .then(translatedMessage => {
-                            // Send the translated message to the server
-                            this.sendToServer(translatedMessage);
-                        })
-                        .catch(error => {
-                            this.log("Translation error: " + error);
-                        });
+                    this.sendToServer(this.newMessage);
 
                     this.newMessage = '';
                 },
-                translateMessage: function (message) {
-                    console.log(message);
-                    return axios.post('https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=en', 
-                        [{
-                            Text: message
-                        }], 
-                    {
-                        headers: {
-                            'Ocp-Apim-Subscription-Key': '35358eb7b5554acdb6953bb1dd1f9458',
-                            'Content-Type': 'application/json',
-                            'Ocp-Apim-Subscription-Region':'eastus'
-                        }
-                    })
-                    .then(response => response.data[0].translations[0].text)
-                    .catch(error => {
-                        throw new Error("Translation failed");
-                    });
-                },
                 addItem(item, owner) {
-                    console.log('addItem');
                     item.id = this.counter++; // vue transitions need an id
                     owner.push(item);
                 },
@@ -283,7 +228,6 @@
                     ));
                 },
                 addMessageToView(message) {
-                    console.log('addMessageToView');
                     this.addItem(JSON.parse(message), this.chat.messages);
 
                     var elem = document.getElementById('chat');
@@ -294,11 +238,6 @@
                 log(content) {
                     this.addItem(new Date().toLocaleString() + ": " + content, this.logs);
                 }
-            },
-            created() {
-                console.log('created');
-                // Fetch supported languages when the component is created
-                this.fetchSupportedLanguages();
             }
         });
 

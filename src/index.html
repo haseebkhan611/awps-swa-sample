@@ -214,6 +214,7 @@
                     }
                 },
                 fetchSupportedLanguages() {
+                    console.log('fetchSupportedLanguages');
                     // Call Azure Translator API to fetch supported languages
                     // Update supportedLanguages array with the response
                     axios.get('https://api.cognitive.microsofttranslator.com/languages?api-version=3.0')
@@ -291,6 +292,7 @@
                 }
             },
             created() {
+                console.log('created');
                 // Fetch supported languages when the component is created
                 this.fetchSupportedLanguages();
             }

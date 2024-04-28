@@ -82,6 +82,13 @@
                         aria-describedby="usernameHelp" placeholder="Type your user name">
                     <small id="usernameHelp" class="form-text text-muted">The user name used to talk to others</small>
                 </div>
+                <!-- Dropdown for selecting language -->
+                <div class="form-group">
+                    <label for="languageSelect">Select Language</label>
+                    <select class="form-control" v-model="selectedLanguage" id="languageSelect">
+                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language.name }}</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
             </form>
         </div>
@@ -152,9 +159,6 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
     <script>
-        function generateUser() {
-            return 'User ' + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-        }
 
         const data = {
             websocket: null,
@@ -165,7 +169,9 @@
             logs: [],
             loggedin: false,
             connected: false,
-            counter: 0
+            counter: 0,
+            supportedLanguages: [],
+            selectedLanguage: ''
         };
         
         const app = new Vue({
@@ -206,6 +212,18 @@
                                 this.log("Error: " + err);
                         });
                     }
+                },
+                fetchSupportedLanguages() {
+                    // Call Azure Translator API to fetch supported languages
+                    // Update supportedLanguages array with the response
+                    axios.get('https://api.cognitive.microsofttranslator.com/languages?api-version=3.0')
+                        .then(response => {
+                            this.supportedLanguages = Object.entries(response.data.translation)
+                                .map(([code, name]) => ({ code, name }));
+                        })
+                        .catch(error => {
+                            this.log("Error fetching supported languages: " + error);
+                        });
                 },
                 sendNewMessage: function () {
                     console.log('sendNewMessage');
@@ -271,6 +289,10 @@
                 log(content) {
                     this.addItem(new Date().toLocaleString() + ": " + content, this.logs);
                 }
+            },
+            created() {
+                // Fetch supported languages when the component is created
+                this.fetchSupportedLanguages();
             }
         });
 

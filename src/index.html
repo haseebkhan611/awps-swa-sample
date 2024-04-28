@@ -253,7 +253,7 @@
                 },
                 translateMessage: function (message) {
                     console.log(message);
-                    return axios.post(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${this.selectedLanguage}&to=en`, 
+                    return axios.post(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${this.selectedLanguage}&fromScript=Latn&to=en`, 
                         [{
                             Text: message
                         }], 

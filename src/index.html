@@ -174,7 +174,8 @@
             connected: false,
             counter: 0,
             supportedLanguages: [],
-            selectedLanguage: ''
+            selectedLanguage: '',
+            orignalContent: '',
         };
         
         const app = new Vue({
@@ -276,6 +277,7 @@
                     owner.push(item);
                 },
                 sendToServer(content) {
+                    console.log('sendToServer'+content);
                     this.websocket.send(JSON.stringify(
                         {
                             from: this.username,

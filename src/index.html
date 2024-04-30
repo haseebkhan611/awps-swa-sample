@@ -219,14 +219,18 @@
                                     .then(translatedMessage => {
                                         console.log("translatedMessage: " + translatedMessage);
                                         // Send the translated message to the server
-                                        e.data.content = translatedMessage;
+                                        e.data.withoutTranslation = translatedMessage;
+                                        console.log('e.data: '+e.data);
+                                        this.addMessageToView(e.data);
                                     })
                                     .catch(error => {
                                         this.log("Translation error: " + error);
                                     });
                                 }
-                                console.log('e.data: '+e.data);
-                                this.addMessageToView(e.data);
+                                else{
+                                    console.log('e.data: '+e.data);
+                                    this.addMessageToView(e.data);
+                                }
                             }}).catch(err => {
                                 this.log("Error: " + err);
                         });

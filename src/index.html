@@ -214,7 +214,7 @@
                                 if (!e.data) return;
                                 if(this.selectedLanguage !== e.data.senderLanguage && e.data.from !== this.username && this.selectedLanguage !== 'en') {
                                     console.log('The sender sent a message in a different language');
-                                    this.translateMessage(e.data.content)
+                                    this.translateMessage(message=e.data.content, toLanguage = this.selectedLanguage, fromLanguage = e.data.senderLanguage)
                                     .then(translatedMessage => {
                                         console.log("translatedMessage: " + translatedMessage);
                                         // Send the translated message to the server
@@ -254,7 +254,7 @@
                     originalMessage = this.newMessage;
                     console.log('Original message: ' + originalMessage)
                     // Translate the message before sending
-                    this.translateMessage(this.newMessage)
+                    this.translateMessage(message=this.newMessage, fromLanguage=this.selectedLanguage)
                         .then(translatedMessage => {
                             console.log("translatedMessage: " + translatedMessage);
                             // Send the translated message to the server
@@ -266,9 +266,9 @@
 
                     this.newMessage = '';
                 },
-                translateMessage: function (message) {
+                translateMessage: function (message, fromLanguage = 'en', toLanguage = 'en') {
                     console.log(message);
-                    return axios.post(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${this.selectedLanguage}&fromScript=Latn&to=en`, 
+                    return axios.post(`https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=${fromLanguage}&fromScript=Latn&to=${toLanguage}&toScript=Latn`, 
                         [{
                             Text: message
                         }], 

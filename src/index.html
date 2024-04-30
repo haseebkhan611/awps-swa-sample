@@ -227,10 +227,6 @@
                         .then(response => {
                             this.supportedLanguages = Object.entries(response.data.translation)
                                 .map(([code, name]) => ({ code, name }));
-                                // Set the default selected language
-                            if (this.supportedLanguages.length > 0) {
-                                selectedLanguage = this.supportedLanguages[0].code;
-                            }
                         })
                         .catch(error => {
                             this.log("Error fetching supported languages: " + error);
@@ -285,10 +281,11 @@
                 },
                 sendToServer(content) {
                     console.log('sendToServer'+content);
+                    const senderLanguage = this.selectedLanguage || "en";
                     this.websocket.send(JSON.stringify(
                         {
                             from: this.username,
-                            senderLanguage: selectedLanguage,
+                            senderLanguage: senderLanguage,
                             content: content,
                             withoutTranslation: originalMessage,
                         }

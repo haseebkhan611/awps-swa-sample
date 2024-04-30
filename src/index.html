@@ -274,6 +274,8 @@
                 },
                 addItem(item, owner) {
                     console.log('addItem');
+                    console.log('Item: ' + item)
+                    console.log('Owner: ' + owner)
                     item.id = this.counter++; // vue transitions need an id
                     owner.push(item);
                 },

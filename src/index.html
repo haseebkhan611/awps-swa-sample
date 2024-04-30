@@ -113,11 +113,19 @@
                         <div class="col-md row" style="display: inline-block;">
                             <div v-if="message.type =='error' || message.from == '[System]'"
                                 class="font-italic text-warning text-center font-weight-light" role="alert">
-                                {{originalMessage}}
+                                {{message.content}}
                             </div>
                             <div v-else-if="message.type == 'self' || message.from == username"
                                 class="alert alert-success float-right" role="text">
-                                {{message.content}}
+                                {{message.orignalContent}}
+                            </div>
+                            <div v-else-if="message.type == 'self' || message.from == username"
+                                class="alert alert-success float-right" role="text">
+                                {{message.original}}
+                            </div>
+                            <div v-else-if="message.type == 'self' || message.from == username"
+                                class="alert alert-success float-right" role="text">
+                                {{message.originalMessage}}
                             </div>
                             <div v-else class="float-left" role="text">
                                 <small class="text-muted font-weight-light">From <a

@@ -290,7 +290,7 @@
                     ));
                 },
                 addMessageToView(message) {
-                    console.log('Message: ' + this.chat.messages.message)
+                    console.log('Message: ' + this.chat.messages.message.from)
                     console.log('addMessageToView');
                     this.addItem(JSON.parse(message), this.chat.messages);
 

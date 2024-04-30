@@ -221,7 +221,7 @@
                                         // Send the translated message to the server
                                         serverMessage.content = translatedMessage;
                                         console.log('e.data: '+serverMessage);
-                                        this.addMessageToView(serverMessage);
+                                        this.addMessageToView(JSON.stringify(serverMessage));
                                     })
                                     .catch(error => {
                                         this.log("Translation error: " + error);

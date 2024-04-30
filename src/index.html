@@ -86,7 +86,7 @@
                 <div class="form-group">
                     <label for="languageSelect">Select Language</label>
                     <select class="form-control" v-model="selectedLanguage" id="languageSelect">
-                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index" :selected="index === 0">{{ language.name.name }}</option>
+                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language.name.name }}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
@@ -227,6 +227,10 @@
                         .then(response => {
                             this.supportedLanguages = Object.entries(response.data.translation)
                                 .map(([code, name]) => ({ code, name }));
+                                // Set the default selected language
+                            if (this.supportedLanguages.length > 0) {
+                                this.selectedLanguage = this.supportedLanguages[0].code;
+                            }
                         })
                         .catch(error => {
                             this.log("Error fetching supported languages: " + error);

@@ -284,8 +284,8 @@
                     this.websocket.send(JSON.stringify(
                         {
                             from: this.username,
-                            content: this.originalMessage,
-                            originalMessage: this.originalMessage,
+                            content: content,
+                            withoutTranslation: originalMessage,
                         }
                     ));
                 },

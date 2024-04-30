@@ -212,7 +212,7 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
-                                console.log(e.data);
+                                console.log('e.data: '+e.data);
                                 this.addMessageToView(e.data);
                             }}).catch(err => {
                                 this.log("Error: " + err);

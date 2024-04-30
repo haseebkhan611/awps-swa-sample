@@ -113,7 +113,7 @@
                         <div class="col-md row" style="display: inline-block;">
                             <div v-if="message.type =='error' || message.from == '[System]'"
                                 class="font-italic text-warning text-center font-weight-light" role="alert">
-                                {{message.content}}
+                                {{message.original}}
                             </div>
                             <div v-else-if="message.type == 'self' || message.from == username"
                                 class="alert alert-success float-right" role="text">

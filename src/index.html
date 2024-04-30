@@ -284,6 +284,7 @@
                     this.websocket.send(JSON.stringify(
                         {
                             from: this.username,
+                            senderLanguage: selectedLanguage,
                             content: content,
                             withoutTranslation: originalMessage,
                         }

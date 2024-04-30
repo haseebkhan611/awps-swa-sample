@@ -229,7 +229,7 @@
                                 .map(([code, name]) => ({ code, name }));
                                 // Set the default selected language
                             if (this.supportedLanguages.length > 0) {
-                                this.selectedLanguage = this.supportedLanguages[0].code;
+                                selectedLanguage = this.supportedLanguages[0].code;
                             }
                         })
                         .catch(error => {

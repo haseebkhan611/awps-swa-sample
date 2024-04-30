@@ -212,8 +212,17 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
-                                if(this.selectedLanguage !== e.data.senderLanguage && e.data.from !== this.username) {
+                                if(this.selectedLanguage !== e.data.senderLanguage && e.data.from !== this.username && this.selectedLanguage !== 'en') {
                                     console.log('The sender sent a message in a different language');
+                                    this.translateMessage(e.data.content)
+                                    .then(translatedMessage => {
+                                        console.log("translatedMessage: " + translatedMessage);
+                                        // Send the translated message to the server
+                                        e.data.content = translatedMessage;
+                                    })
+                                    .catch(error => {
+                                        this.log("Translation error: " + error);
+                                    });
                                 }
                                 console.log('e.data: '+e.data);
                                 this.addMessageToView(e.data);

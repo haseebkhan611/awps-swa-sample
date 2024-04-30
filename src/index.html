@@ -212,9 +212,10 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
+                                placer = e.data;
                                 if(this.selectedLanguage !== e.data.senderLanguage && e.data.from !== this.username && this.selectedLanguage !== 'en') {
-                                    console.log('The sender sent a message in a different language'+ e.data.content);
-                                    dummy = e.data.content;
+                                    console.log('The sender sent a message in a different language'+ this.placer.content);
+                                    dummy = this.placer.content;
                                     this.translateMessage(message=dummy, toLanguage = this.selectedLanguage, fromLanguage = e.data.senderLanguage)
                                     .then(translatedMessage => {
                                         console.log("translatedMessage: " + translatedMessage);

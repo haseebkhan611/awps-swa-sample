@@ -86,7 +86,7 @@
                 <div class="form-group">
                     <label for="languageSelect">Select Language</label>
                     <select class="form-control" v-model="selectedLanguage" id="languageSelect">
-                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language.name.name }}</option>
+                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index" :selected="language.code === en">{{ language.name.name }}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Continue</button>

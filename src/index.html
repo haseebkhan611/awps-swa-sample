@@ -212,6 +212,9 @@
                             }
                             websocket.onmessage = e => {
                                 if (!e.data) return;
+                                if(this.selectedLanguage !== e.data.senderLanguage && e.data.from !== this.username) {
+                                    console.log('The sender sent a message in a different language');
+                                }
                                 console.log('e.data: '+e.data);
                                 this.addMessageToView(e.data);
                             }}).catch(err => {

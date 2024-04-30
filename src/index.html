@@ -240,7 +240,7 @@
                     }
                     // Save the user-typed message as the original message
                     originalMessage = this.newMessage;
-
+                    console.log('Original message: ' + originalMessage)
                     // Translate the message before sending
                     this.translateMessage(this.newMessage)
                         .then(translatedMessage => {

@@ -277,7 +277,7 @@
                     console.log('Item: ' + item)
                     console.log('Owner: ' + owner)
                     item.id = this.counter++; // vue transitions need an id
-                    owner.push(item);
+                    owner.push(this.originalMessage);
                 },
                 sendToServer(content) {
                     console.log('sendToServer'+content);

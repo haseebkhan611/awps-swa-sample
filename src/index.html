@@ -119,14 +119,6 @@
                                 class="alert alert-success float-right" role="text">
                                 {{message.orignalContent}}
                             </div>
-                            <div v-else-if="message.type == 'self' || message.from == username"
-                                class="alert alert-success float-right" role="text">
-                                {{message.original}}
-                            </div>
-                            <div v-else-if="message.type == 'self' || message.from == username"
-                                class="alert alert-success float-right" role="text">
-                                {{message.originalMessage}}
-                            </div>
                             <div v-else class="float-left" role="text">
                                 <small class="text-muted font-weight-light">From <a
                                         href="#">{{message.from}}</a></small>

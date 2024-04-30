@@ -215,7 +215,7 @@
                                 const serverMessage = JSON.parse(e.data);
                                 if(this.selectedLanguage !== serverMessage.senderLanguage && serverMessage.from !== this.username && this.selectedLanguage !== 'en') {
                                     console.log('The sender sent a message in a different language'+ serverMessage.content);
-                                    this.translateMessage(message=serverMessage.content, toLanguage = this.selectedLanguage, fromLanguage = serverMessage.senderLanguage)
+                                    this.translateMessage(message=serverMessage.content, toLanguage = serverMessage.senderLanguage, fromLanguage = this.selectedLanguage)
                                     .then(translatedMessage => {
                                         console.log("translatedMessage: " + translatedMessage);
                                         // Send the translated message to the server

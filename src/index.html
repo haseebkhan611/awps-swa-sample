@@ -86,7 +86,7 @@
                 <div class="form-group">
                     <label for="languageSelect">Select Language</label>
                     <select class="form-control" v-model="selectedLanguage" id="languageSelect">
-                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language.name }}</option>
+                        <option v-for="(language, index) in supportedLanguages" :value="language.code" :key="index">{{ language }}</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Continue</button>
@@ -117,7 +117,7 @@
                             </div>
                             <div v-else-if="message.type == 'self' || message.from == username"
                                 class="alert alert-success float-right" role="text">
-                                {{message.originalMessage}}
+                                {{message.content}}
                             </div>
                             <div v-else class="float-left" role="text">
                                 <small class="text-muted font-weight-light">From <a
